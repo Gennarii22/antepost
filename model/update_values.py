@@ -51,9 +51,15 @@ def parse_eur(s):
 def scrape_current(tmcode):
     """Valori CORRENTI delle squadre del campionato (marktwerteverein)."""
     url=f"https://www.transfermarkt.com/x/marktwerteverein/wettbewerb/{tmcode}"
-    html=urllib.request.urlopen(urllib.request.Request(url,headers=UA),timeout=25).read().decode("utf-8","replace")
+    try:
+        resp=urllib.request.urlopen(urllib.request.Request(url,headers=UA),timeout=25)
+        html=resp.read().decode("utf-8","replace")
+    except Exception as e:
+        print(f"    HTTP: {e}"); return []
     t=BeautifulSoup(html,"html.parser").find("table",class_="items"); out=[]
-    if not t or not t.find("tbody"): return out
+    if not t or not t.find("tbody"):
+        ttl=BeautifulSoup(html,"html.parser").title
+        print(f"    tabella assente (len={len(html)}, title={ttl.get_text(strip=True)[:80] if ttl else None})"); return out
     for tr in t.find("tbody").find_all("tr",recursive=False):
         nl=tr.find("td",class_="hauptlink")
         if not nl: continue
@@ -89,6 +95,8 @@ for div,(tmcode,country) in LEAGUES.items():
 conn.close()
 
 new=pd.DataFrame(rows)
+if new.empty:
+    raise SystemExit("✗ nessun valore scaricato: file valori NON modificato")
 mv=pd.read_parquet(f"{BASE}/data/market_values_all.parquet")
 mv=mv[mv["season"]!=CUR_SEASON]                       # rimuovi i vecchi current
 mv=pd.concat([mv,new],ignore_index=True)
