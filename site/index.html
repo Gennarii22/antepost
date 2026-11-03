@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antepost | In stagione</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;color:rgba(255,255,255,.92);min-height:100vh;background:#070712;-webkit-font-smoothing:antialiased}
+.bg{position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(ellipse 90% 70% at 10% 10%,rgba(110,30,200,.20)0,transparent 55%),
+  radial-gradient(ellipse 80% 90% at 90% 90%,rgba(20,70,220,.15)0,transparent 55%),
+  radial-gradient(ellipse 60% 50% at 50% 110%,rgba(220,0,60,.10)0,transparent 55%),
+  linear-gradient(160deg,#08071a 0,#0b1230 40%,#08101e 100%)}
+.glass{background:rgba(255,255,255,.06);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid rgba(255,255,255,.11)}
+.root{max-width:1560px;margin:0 auto;padding:22px 24px 60px;display:flex;flex-direction:column;gap:16px}
+.header{display:flex;align-items:center;gap:16px;padding:16px 22px;border-radius:20px;flex-wrap:wrap}
+.logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#E8003D,#A8002D);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px}
+h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.sub{font-size:12px;color:rgba(255,255,255,.45);margin-top:2px}
+.badge{margin-left:auto;font-size:11px;padding:5px 12px;border-radius:20px;background:rgba(0,230,118,.14);border:1px solid rgba(0,230,118,.35);color:#00E676;font-weight:700}
+.navlink{font-size:12px;color:rgba(255,255,255,.8);text-decoration:none;padding:7px 13px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);font-weight:600}
+.navlink:hover{background:rgba(255,255,255,.13)}
+
+.lgnav{display:flex;gap:6px;flex-wrap:wrap;padding:12px 18px;border-radius:18px}
+.lgbtn{padding:7px 13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.55);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.lgbtn:hover{background:rgba(255,255,255,.11);color:#fff}
+.lgbtn.active{background:rgba(59,130,246,.22);border-color:rgba(59,130,246,.6);color:#fff;box-shadow:0 0 14px rgba(59,130,246,.2)}
+.lgbtn .fmt{font-size:9.5px;opacity:.6;margin-left:4px}
+
+.toolbar{display:flex;align-items:center;gap:12px;padding:12px 20px;border-radius:16px;flex-wrap:wrap;font-size:12px}
+.toolbar .info{color:rgba(255,255,255,.55)}
+.mk{display:flex;gap:6px}
+.mkbtn{padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:rgba(255,255,255,.55);font-size:12px;font-weight:600;cursor:pointer}
+.mkbtn.active{background:rgba(0,230,118,.14);border-color:rgba(0,230,118,.4);color:#00E676}
+.fld{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.55)}
+.fld input{width:74px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:5px 7px;color:#fff;font-size:12.5px;text-align:right;font-family:inherit;outline:none}
+.btn{padding:7px 13px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:rgba(255,255,255,.8);font-size:12px;font-weight:600;cursor:pointer}
+.btn:hover{background:rgba(255,255,255,.13)}
+.btn.danger:hover{background:rgba(232,0,61,.3);border-color:rgba(232,0,61,.5)}
+
+.panel{border-radius:20px;overflow:hidden}
+.panel-h{padding:16px 22px 10px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.legend{margin-left:auto;display:flex;gap:14px;font-size:10px;text-transform:none;letter-spacing:0;font-weight:500}
+.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:middle}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 12px;text-align:right;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4);border-bottom:1px solid rgba(255,255,255,.08);white-space:nowrap}
+th:nth-child(1),th:nth-child(2){text-align:left}
+td{padding:8px 12px;text-align:right;border-bottom:1px solid rgba(255,255,255,.04);white-space:nowrap}
+td:nth-child(1),td:nth-child(2){text-align:left}
+tr:hover td{background:rgba(255,255,255,.03)}
+th.sel,td.sel{background:rgba(59,130,246,.07)}
+.pos{color:rgba(255,255,255,.35);font-variant-numeric:tabular-nums;width:28px}
+.team{font-weight:600}.muted{color:rgba(255,255,255,.5)}.big{font-weight:700;font-variant-numeric:tabular-nums}
+.pp{font-weight:800;color:#fff}
+.up{color:#00E676;font-size:10.5px;margin-left:5px}.dn{color:#FF6B8B;font-size:10.5px;margin-left:5px}
+.val-row{background:rgba(0,230,118,.07)!important}.val-row:hover td{background:rgba(0,230,118,.11)!important}
+.pos-edge{color:#00E676;font-weight:700}.neg-edge{color:rgba(255,255,255,.32)}
+.ev-pos{color:#00E676;font-weight:800}.ev-neg{color:rgba(255,255,255,.4)}
+.bar{height:6px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;display:inline-block;width:50px;vertical-align:middle;margin-left:6px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#E8003D,#FF4D75)}
+.qin{width:62px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:5px 7px;color:#fff;font-size:12.5px;text-align:right;font-family:inherit;outline:none}
+.qin:focus{border-color:rgba(0,230,118,.5);background:rgba(0,230,118,.06)}
+.qin::placeholder{color:rgba(255,255,255,.25)}
+.foot{font-size:11px;color:rgba(255,255,255,.4);padding:8px 22px 14px;line-height:1.7}
+.hedge{padding:16px 22px 20px;display:flex;flex-direction:column;gap:12px;font-size:12.5px}
+.hrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.hrow select{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:6px 8px;color:#fff;font-size:12.5px;outline:none}
+.hrow select option{background:#0b1230}
+.hres{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{border-radius:10px;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.kpi .l{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45)}
+.kpi .v{font-size:19px;font-weight:800;margin-top:3px}
+.kpi.good{border-color:rgba(0,230,118,.45);background:rgba(0,230,118,.09)}.kpi.good .v{color:#00E676}
+.kpi.bad .v{color:#FF6B8B}
+.warn{color:#FFB74D;font-size:11.5px}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="root">
+
+  <div class="header glass">
+    <div class="logo">A</div>
+    <div><h1>Antepost | In stagione</h1><div class="sub" id="sub"></div></div>
+    <a class="navlink" href="matches.html">Partite →</a>
+    <div class="badge" id="badge">● LIVE</div>
+  </div>
+
+  <div class="lgnav glass" id="lgnav"></div>
+
+  <div class="toolbar glass">
+    <div class="mk" id="mk">
+      <button class="mkbtn active" data-m="title">Titolo</button>
+      <button class="mkbtn" data-m="top4">Top 4</button>
+      <button class="mkbtn" data-m="rel">Retrocessione</button>
+    </div>
+    <span class="fld">Bankroll € <input id="bk" type="number" min="0" step="50" value="1000"></span>
+    <span class="fld">Frazione Kelly <input id="kf" type="number" min="0.05" max="1" step="0.05" value="0.25"></span>
+    <span class="info">Inserisci la quota nella colonna Quota: Edge, EV e stake si calcolano da soli. Righe <span style="color:#00E676">verdi</span> = value.</span>
+    <button class="btn danger" id="clearq" style="margin-left:auto">Cancella quote di questo mercato</button>
+  </div>
+
+  <div class="panel glass">
+    <div class="panel-h" id="tblh">
+      <span id="tblt">Classifica e probabilità</span>
+      <span class="legend">
+        <span><span class="dot" style="background:#00E676"></span>value (EV+)</span>
+        <span><span class="dot" style="background:#3B82F6"></span>mercato selezionato</span>
+      </span>
+    </div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr>
+        <th>#</th><th>Squadra</th><th>G</th><th>Pt</th><th>DR</th><th>ELO</th><th>Valore</th><th>Pt attesi</th>
+        <th id="h-title">P(titolo)</th><th id="h-top4">P(top4)</th><th id="h-rel">P(retro)</th>
+        <th>Quota</th><th>P.mkt</th><th>Edge</th><th>EV</th><th>Stake</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+    <div class="foot" id="foot"></div>
+  </div>
+
+  <div class="panel glass" id="hedgepanel">
+    <div class="panel-h">Copertura (green-up) | solo mercato Titolo</div>
+    <div class="hedge">
+      <div class="hrow">
+        <span class="fld">Posizione su
+          <select id="hteam"></select></span>
+        <span class="fld">Stake € <input id="hstake" type="number" min="0" step="10" value="100"></span>
+        <span class="fld">Quota di ingresso <input id="hq0" type="number" min="1.01" step="0.05" placeholder="es. 4.00"></span>
+        <span class="muted">Usa le quote correnti inserite nella tabella (mercato Titolo) per le altre squadre.</span>
+      </div>
+      <div class="hres" id="hres"></div>
+      <div id="hlist" class="muted"></div>
+    </div>
+  </div>
+</div>
+
+<script src="season_data.js"></script>
+<script>
+const D = window.SEASON;
+let curDiv = D.leagues[0].div, curMk = 'title';
+const MK = {title:{lab:'Titolo',p:'p_title',tot:1}, top4:{lab:'Top 4',p:'p_top4',tot:4}, rel:{lab:'Retrocessione',p:'p_rel',tot:3}};
+const zoneLab = L => ({top4: L.top_label + ' (prime ' + L.n_top + ')', rel: 'Retrocessione (ultime ' + L.n_rel + ')'});
+const LS_Q = 'antepost_quote_v2', LS_S = 'antepost_set_v2', LS_H = 'antepost_hedge_v1';
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch(e) { return d; } };
+const quote = load(LS_Q, {});          // {div|mercato: {team: quota}}
+const sets  = load(LS_S, {bk:1000, kf:0.25});
+const hedge = load(LS_H, {});          // {div: {team, stake, q0}}
+const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+const pct = v => (v*100).toFixed(1) + '%';
+
+document.getElementById('sub').textContent =
+  `stagione ${D.season} · aggiornato ${D.generated} · simulazione del calendario residuo (${D.n_sims.toLocaleString('it-IT')} stagioni) su ELO + valore rosa`;
+
+const lgnav = document.getElementById('lgnav');
+D.leagues.forEach(l => {
+  const b = document.createElement('button'); b.className = 'lgbtn'; b.dataset.div = l.div;
+  b.innerHTML = l.name + (l.split ? '<span class="fmt" title="formato con spareggi: stima indicativa">~</span>' : '');
+  b.onclick = () => { curDiv = l.div; render(); };
+  lgnav.appendChild(b);
+});
+document.querySelectorAll('.mkbtn').forEach(b => b.onclick = () => { curMk = b.dataset.m; render(); });
+document.getElementById('bk').value = sets.bk; document.getElementById('kf').value = sets.kf;
+['bk','kf'].forEach(id => document.getElementById(id).onchange = () => {
+  sets.bk = parseFloat(document.getElementById('bk').value) || 0;
+  sets.kf = parseFloat(document.getElementById('kf').value) || 0.25; save(LS_S, sets); render();
+});
+document.getElementById('clearq').onclick = () => { delete quote[curDiv+'|'+curMk]; save(LS_Q, quote); render(); };
+
+function keyQ(){ return curDiv + '|' + curMk; }
+
+function render(){
+  const L = D.leagues.find(x => x.div === curDiv), m = MK[curMk];
+  MK.top4.tot = L.n_top; MK.rel.tot = L.n_rel;
+  MK.top4.lab = zoneLab(L).top4; MK.rel.lab = zoneLab(L).rel;
+  document.querySelector('.mkbtn[data-m=top4]').textContent = 'Prime ' + L.n_top;
+  document.querySelector('.mkbtn[data-m=rel]').textContent = 'Retrocessione (' + L.n_rel + ')';
+  document.getElementById('h-top4').textContent = 'P(prime ' + L.n_top + ')';
+  document.getElementById('h-rel').textContent = 'P(retro ' + L.n_rel + ')';
+  [...lgnav.children].forEach(c => c.classList.toggle('active', c.dataset.div === curDiv));
+  document.querySelectorAll('.mkbtn').forEach(b => b.classList.toggle('active', b.dataset.m === curMk));
+  ['title','top4','rel'].forEach(k => document.getElementById('h-'+k).classList.toggle('sel', k === curMk));
+  document.getElementById('tblt').textContent =
+    `${L.name} | ${m.lab} | ${L.matchday_min === L.matchday_max ? 'giornata ' + L.matchday_max : 'giornate ' + L.matchday_min + '-' + L.matchday_max} su ${L.games_total}`;
+  const rows = L.teams, qd = quote[keyQ()] || {};
+  const allQ = rows.every(r => qd[r.team] > 1);
+  const sumInv = allQ ? rows.reduce((s, r) => s + 1/qd[r.team], 0) : null;
+  const maxP = Math.max(...rows.map(r => r[m.p]), 0.001);
+  const tb = document.getElementById('tbody'); tb.innerHTML = '';
+  rows.forEach((r, i) => {
+    const q = qd[r.team], hasQ = q > 1;
+    // P.mkt: se ho le quote di TUTTE le squadre tolgo il margine (normalizzo al totale del mercato)
+    const pm = hasQ ? (allQ ? (1/q) / sumInv * m.tot : 1/q) : null;
+    const edge = hasQ ? (r[m.p] - pm) * 100 : null;
+    const ev = hasQ ? r[m.p]*q - 1 : null;
+    const kelly = (hasQ && ev > 0) ? Math.max(0, (r[m.p]*q - 1) / (q - 1)) * sets.kf * sets.bk : 0;
+    const dlt = r['d_'+curMk.replace('top4','top4')];
+    const dtxt = (dlt !== undefined && dlt !== null && Math.abs(dlt) >= 0.005)
+      ? `<span class="${dlt > 0 ? 'up' : 'dn'}">${dlt > 0 ? '▲' : '▼'}${Math.abs(dlt*100).toFixed(1)}</span>` : '';
+    const tr = document.createElement('tr'); if (hasQ && ev > 0) tr.className = 'val-row';
+    const cell = (k, val) => `<td class="${k === curMk ? 'sel pp' : ''}">${val}</td>`;
+    tr.innerHTML = `<td class="pos">${i+1}</td><td class="team">${r.team}</td>
+      <td class="muted">${r.played}</td><td class="big">${r.pts}</td><td class="muted">${r.gd > 0 ? '+' : ''}${r.gd}</td>
+      <td class="muted">${r.elo}</td><td class="muted">€${Math.round(r.valore)}m</td>
+      <td class="big">${r.exp_pts}<span class="muted" style="font-size:10px"> ±${r.pts_sd}</span></td>
+      ${cell('title', pct(r.p_title) + (curMk === 'title' ? `<span class="bar"><i style="width:${r.p_title/maxP*100}%"></i></span>` + dtxt : ''))}
+      ${cell('top4', pct(r.p_top4) + (curMk === 'top4' ? dtxt : ''))}
+      ${cell('rel', pct(r.p_rel) + (curMk === 'rel' ? dtxt : ''))}
+      <td><input class="qin" type="number" step="0.05" min="1.01" placeholder="—" value="${hasQ ? q : ''}" data-team="${r.team}"></td>
+      <td class="muted">${hasQ ? pct(pm) : '—'}</td>
+      <td class="${hasQ ? (edge > 0 ? 'pos-edge' : 'neg-edge') : 'muted'}">${hasQ ? (edge > 0 ? '+' : '') + edge.toFixed(1) : '—'}</td>
+      <td class="${hasQ ? (ev > 0 ? 'ev-pos' : 'ev-neg') : 'muted'}">${hasQ ? (ev > 0 ? '+' : '') + ev.toFixed(2) : '—'}</td>
+      <td class="${kelly > 0 ? 'ev-pos' : 'muted'}">${kelly > 0 ? '€' + kelly.toFixed(0) : '—'}</td>`;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll('.qin').forEach(inp => inp.onchange = () => {
+    const t = inp.dataset.team, v = parseFloat(inp.value);
+    quote[keyQ()] = quote[keyQ()] || {};
+    if (v && v > 1) quote[keyQ()][t] = v; else delete quote[keyQ()][t];
+    save(LS_Q, quote); render();
+  });
+  const note = allQ ? 'Quote di tutte le squadre inserite: margine del book rimosso (P.mkt normalizzata).' : 'P.mkt = 1/quota grezza (margine incluso): inserisci tutte le quote per normalizzarla.';
+  document.getElementById('foot').innerHTML =
+    `${rows.length} squadre · ${L.remaining} partite da giocare · rumore di forza σ=${D.sigma} (tarato col backtest) · ${note}`
+    + (L.skill ? `<br>Skill del modello in questo campionato (backtest g9, 0 = come tirare a caso sulle frequenze medie, 1 = perfetto): titolo ${L.skill.title}, top4 ${L.skill.top4}, retrocessione ${L.skill.rel}.` : '')
+    + (Object.keys(L.adjustments||{}).length ? '<br>Penalizzazioni in classifica applicate: ' + Object.entries(L.adjustments).map(([t,d]) => t + ' ' + d).join(', ') + ' punti.' : '')
+    + ((L.filled||[]).length ? '<br>Risultati recenti presi da ESPN perché non ancora nel database: ' + L.filled.join(', ') + '.' : '')
+    + (L.split ? '<br><span class="warn">Formato con spareggi/split (titolo deciso dopo la regular season): stima indicativa, non backtestata.</span>' : '')
+    + `<br>${D.quality_note || ''}`;
+  renderHedge(L);
+}
+
+/* Copertura: ho puntato S a quota Q0 su X. Per bloccare lo stesso ritorno R = S*Q0 qualunque
+   squadra vinca, punto h_j = R / Q_j su ogni altra squadra j (quota corrente). Profitto
+   garantito = R*(1 - sum_j 1/Q_j) - S. Servono le quote correnti di tutte le altre squadre. */
+function renderHedge(L){
+  const hp = document.getElementById('hedgepanel');
+  hp.style.display = curMk === 'title' ? '' : 'none';
+  if (curMk !== 'title') return;
+  const sel = document.getElementById('hteam'); const h = hedge[curDiv] || {};
+  sel.innerHTML = L.teams.map(r => `<option ${r.team === h.team ? 'selected' : ''}>${r.team}</option>`).join('');
+  document.getElementById('hstake').value = h.stake ?? 100; document.getElementById('hq0').value = h.q0 ?? '';
+  const upd = () => {
+    hedge[curDiv] = {team: sel.value, stake: parseFloat(document.getElementById('hstake').value) || 0,
+                     q0: parseFloat(document.getElementById('hq0').value) || null}; save(LS_H, hedge); calc(L);
+  };
+  sel.onchange = upd; document.getElementById('hstake').onchange = upd; document.getElementById('hq0').onchange = upd;
+  calc(L);
+}
+function calc(L){
+  const h = hedge[curDiv]; const res = document.getElementById('hres'), lst = document.getElementById('hlist');
+  if (!h || !h.q0 || !h.stake){ res.innerHTML = ''; lst.textContent = 'Inserisci squadra, stake e quota di ingresso.'; return; }
+  const qd = quote[curDiv + '|title'] || {};
+  const others = L.teams.filter(r => r.team !== h.team);
+  const withQ = others.filter(r => qd[r.team] > 1), noQ = others.filter(r => !(qd[r.team] > 1));
+  const R = h.stake * h.q0;
+  const stakes = withQ.map(r => ({t: r.team, q: qd[r.team], h: R / qd[r.team]}));
+  const tot = stakes.reduce((s, x) => s + x.h, 0);
+  const profit = R - h.stake - tot;                   // se vince X: R - stake iniziale - coperture
+  const probNo = noQ.reduce((s, r) => s + r.p_title, 0);
+  res.innerHTML =
+    `<div class="kpi"><div class="l">Ritorno bloccato</div><div class="v">€${R.toFixed(0)}</div></div>
+     <div class="kpi"><div class="l">Coperture da piazzare</div><div class="v">€${tot.toFixed(0)}</div></div>
+     <div class="kpi ${profit > 0 ? 'good' : 'bad'}"><div class="l">Profitto garantito</div><div class="v">${profit >= 0 ? '+' : ''}€${profit.toFixed(0)}</div></div>
+     <div class="kpi"><div class="l">Squadre senza quota</div><div class="v">${noQ.length}</div></div>`;
+  lst.innerHTML = stakes.sort((a,b) => b.h - a.h).map(x => `${x.t} <b>€${x.h.toFixed(0)}</b> @${x.q}`).join(' · ')
+    + (noQ.length ? `<br><span class="warn">Non coperte: ${noQ.length} squadre (probabilità modello totale ${pct(probNo)}). Se vince una di loro, perdi lo stake iniziale.</span>` : '');
+}
+render();
+</script>
+</body>
+</html>

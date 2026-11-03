@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antepost — Partite</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;color:rgba(255,255,255,.92);min-height:100vh;background:#070712;-webkit-font-smoothing:antialiased}
+.bg{position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(ellipse 90% 70% at 10% 10%,rgba(110,30,200,.20)0,transparent 55%),
+  radial-gradient(ellipse 80% 90% at 90% 90%,rgba(20,70,220,.15)0,transparent 55%),
+  radial-gradient(ellipse 60% 50% at 50% 110%,rgba(220,0,60,.10)0,transparent 55%),
+  linear-gradient(160deg,#08071a 0,#0b1230 40%,#08101e 100%)}
+.glass{background:rgba(255,255,255,.06);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid rgba(255,255,255,.11)}
+.root{max-width:1500px;margin:0 auto;padding:22px 24px 60px;display:flex;flex-direction:column;gap:16px}
+.header{display:flex;align-items:center;gap:16px;padding:16px 22px;border-radius:20px;flex-wrap:wrap}
+.logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#3B82F6,#1D4ED8);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px}
+h1{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.sub{font-size:12px;color:rgba(255,255,255,.45);margin-top:2px}
+.badge{margin-left:auto;font-size:11px;padding:5px 12px;border-radius:20px;background:rgba(0,230,118,.14);border:1px solid rgba(0,230,118,.35);color:#00E676;font-weight:700}
+.navlink{font-size:12px;color:rgba(255,255,255,.6);text-decoration:none;padding:7px 13px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05)}
+.navlink:hover{background:rgba(255,255,255,.11);color:#fff}
+
+.lgnav{display:flex;gap:6px;flex-wrap:wrap;padding:12px 18px;border-radius:18px}
+.lgbtn{padding:7px 13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:rgba(255,255,255,.55);font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
+.lgbtn:hover{background:rgba(255,255,255,.11);color:#fff}
+.lgbtn.active{background:rgba(59,130,246,.22);border-color:rgba(59,130,246,.6);color:#fff;box-shadow:0 0 14px rgba(59,130,246,.2)}
+.lgbtn .brier{font-size:9.5px;opacity:.6;margin-left:5px}
+
+.subnav{display:flex;gap:8px;padding:0 4px}
+.stbtn{padding:6px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:rgba(255,255,255,.55);font-size:12px;font-weight:600;cursor:pointer}
+.stbtn.active{background:rgba(0,230,118,.14);border-color:rgba(0,230,118,.4);color:#00E676}
+
+.panel{border-radius:20px;overflow:hidden}
+.panel-h{padding:16px 22px 10px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:10px 12px;text-align:right;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4);border-bottom:1px solid rgba(255,255,255,.08);white-space:nowrap}
+th:nth-child(1),th:nth-child(2){text-align:left}
+td{padding:9px 12px;text-align:right;border-bottom:1px solid rgba(255,255,255,.04);white-space:nowrap}
+td:nth-child(1),td:nth-child(2){text-align:left}
+tr:hover td{background:rgba(255,255,255,.03)}
+.muted{color:rgba(255,255,255,.45)}
+.match{font-weight:600}
+.fav{font-weight:800;color:#fff}
+.score{font-weight:800;color:#00E676;font-variant-numeric:tabular-nums}
+.played-tag{font-size:9.5px;padding:2px 7px;border-radius:8px;background:rgba(0,230,118,.14);color:#00E676;font-weight:700;margin-left:6px}
+.pbar{display:inline-block;width:70px;height:5px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden;vertical-align:middle;margin-left:6px}
+.pbar>i{display:block;height:100%;background:linear-gradient(90deg,#3B82F6,#60A5FA)}
+.foot{font-size:11px;color:rgba(255,255,255,.4);padding:6px 4px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="root">
+
+  <div class="header glass">
+    <div class="logo">P</div>
+    <div><h1>Antepost — Partite</h1><div class="sub" id="sub"></div></div>
+    <a class="navlink" href="index.html">← Classifica &amp; scudetto</a>
+    <div class="badge" id="badge">● LIVE</div>
+  </div>
+
+  <div class="lgnav glass" id="lgnav"></div>
+  <div class="subnav">
+    <button class="stbtn active" data-f="upcoming" id="f-upcoming">Prossime</button>
+    <button class="stbtn" data-f="played" id="f-played">Giocate di recente</button>
+  </div>
+
+  <div class="panel glass">
+    <div class="panel-h" id="tblh">Partite</div>
+    <div style="overflow-x:auto"><table>
+      <thead><tr>
+        <th>Data</th><th>Partita</th><th>1</th><th>X</th><th>2</th>
+        <th>Over 1.5</th><th>Over 2.5</th><th>Over 3.5</th><th>BTTS</th><th>Risultato più prob.</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+    <div class="foot" id="foot"></div>
+  </div>
+</div>
+
+<script src="matches_data.js"></script>
+<script>
+const D = window.MATCHES;
+const divs = Object.keys(D.leagues);
+let curDiv = divs[0], curFilter = 'upcoming';
+
+document.getElementById('sub').textContent = `aggiornato: ${D.generated} · motore Poisson ELO+valore rosa, calibrato e validato per campionato`;
+
+const lgnav = document.getElementById('lgnav');
+divs.forEach(div=>{
+  const L = D.leagues[div];
+  const b=document.createElement('button'); b.className='lgbtn'; b.dataset.div=div;
+  const tag = (L.brier!=null && L.mbrier!=null) ? (L.brier<=L.mbrier*1.02 ? '✓' : '~') : '';
+  b.innerHTML = `${L.name} <span class="brier">${tag}</span>`;
+  b.onclick=()=>{curDiv=div; setLeague();};
+  lgnav.appendChild(b);
+});
+document.getElementById('f-upcoming').onclick=()=>{curFilter='upcoming';setFilter();};
+document.getElementById('f-played').onclick=()=>{curFilter='played';setFilter();};
+
+function setFilter(){
+  document.getElementById('f-upcoming').classList.toggle('active',curFilter==='upcoming');
+  document.getElementById('f-played').classList.toggle('active',curFilter==='played');
+  render();
+}
+function pct(v){return (v*100).toFixed(0)+'%';}
+function fmtDate(iso){
+  try{ const d=new Date(iso); return d.toLocaleDateString('it-IT',{weekday:'short',day:'2-digit',month:'short'})+' '+d.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'}); }
+  catch(e){ return iso; }
+}
+function setLeague(){
+  [...lgnav.children].forEach(c=>c.classList.toggle('active',c.dataset.div===curDiv));
+  const L=D.leagues[curDiv];
+  document.getElementById('tblh').textContent = `${L.name} — partite`
+    + (L.brier!=null?`  ·  Brier modello ${L.brier.toFixed(4)} vs mercato ${L.mbrier.toFixed(4)}`:'');
+  render();
+}
+function render(){
+  const L=D.leagues[curDiv];
+  const rows=(L.matches||[]).filter(m=> curFilter==='played' ? m.played : !m.played);
+  const tb=document.getElementById('tbody'); tb.innerHTML='';
+  if(!rows.length){ tb.innerHTML='<tr><td class="muted" colspan="10">— nessuna partita —</td></tr>'; }
+  rows.forEach(m=>{
+    const favp = Math.max(m.p1,m.px,m.p2);
+    const cls1 = m.p1===favp?'fav':''; const clsX = m.px===favp?'fav':''; const cls2 = m.p2===favp?'fav':'';
+    const risult = m.top_score || '—';
+    const scoreTag = m.played && m.real ? `<span class="score">${m.real.hs}-${m.real.as}</span><span class="played-tag">FT</span>` : '';
+    const tr=document.createElement('tr');
+    tr.innerHTML = `<td class="muted">${fmtDate(m.date)}</td>
+      <td class="match">${m.home} — ${m.away} ${scoreTag}</td>
+      <td class="${cls1}">${pct(m.p1)}</td><td class="${clsX}">${pct(m.px)}</td><td class="${cls2}">${pct(m.p2)}</td>
+      <td class="muted">${pct(m.over15)}</td><td class="muted">${pct(m.over25)}</td><td class="muted">${pct(m.over35)}</td>
+      <td class="muted">${pct(m.btts)}</td><td class="muted">${risult}</td>`;
+    tb.appendChild(tr);
+  });
+  document.getElementById('foot').textContent =
+    `${rows.length} partite · probabilita' dal motore Poisson calibrato su ELO + valore rosa (Transfermarkt), specifico per campionato.`;
+}
+setLeague(); setFilter();
+</script>
+</body>
+</html>

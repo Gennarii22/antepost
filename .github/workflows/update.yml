@@ -1,0 +1,50 @@
+name: Aggiorna Antepost
+
+# Ogni 2 ore, minuto sfalsato (:23) perche' i cron "tondi" vengono ritardati/saltati da GitHub.
+# I risultati arrivano da football-data (con ~1 giorno di ritardo) e da ESPN (in giornata):
+# la pipeline copre i buchi con ESPN. I valori rosa Transfermarkt si rinfrescano il lunedi'
+# (e solo se i numeri nuovi superano i controlli di plausibilita').
+# Repo pubblica = minuti Actions illimitati. Se un controllo fallisce NIENTE viene pubblicato.
+on:
+  schedule:
+    - cron: '23 */2 * * *'
+  workflow_dispatch:
+    inputs:
+      valori:
+        description: 'Forza il refresh dei valori rosa'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: antepost-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Installa dipendenze
+        run: pip install -r requirements.txt
+
+      - name: Aggiorna modello
+        run: |
+          cd model
+          if [ "${{ inputs.valori }}" = "true" ]; then python cloud_update.py --valori; else python cloud_update.py; fi
+
+      - name: Commit e push sicuro
+        run: |
+          git config user.name "antepost-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config pull.rebase true
+          bash safe_push.sh "auto-update Antepost $(date -u +'%Y-%m-%d %H:%M UTC')"

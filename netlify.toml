@@ -1,0 +1,14 @@
+# Netlify: pubblica la cartella statica `site/`. Nessuna build (file statici).
+[build]
+  publish = "site"
+  command = ""
+
+# I file-dati cambiano a ogni update: niente cache del browser, sempre rivalidati.
+[[headers]]
+  for = "/season_data.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+[[headers]]
+  for = "/matches_data.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

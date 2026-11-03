@@ -1,0 +1,130 @@
+{
+ "best_sigma_by_g": {
+  "15": 0.0,
+  "25": 0.0,
+  "5": 0.0,
+  "9": 0.0
+ },
+ "table": [
+  {
+   "g": 5,
+   "n_stagioni": 101,
+   "sigma": 0.0,
+   "brier": 0.0626088143000297,
+   "brier_pro": 0.06461663646377673,
+   "mae_pts": 6.706503266331659,
+   "mae_pts_pro": 7.333376276310656,
+   "fav_titolo": 0.5742574257425742,
+   "top4_su_4": 2.9603960396039604,
+   "p_alte_previste": 0.7479228260869565,
+   "p_alte_reali": 0.7321739130434782
+  },
+  {
+   "g": 9,
+   "n_stagioni": 101,
+   "sigma": 0.0,
+   "brier": 0.05595671185297901,
+   "brier_pro": 0.058960654866389545,
+   "mae_pts": 6.134144158291457,
+   "mae_pts_pro": 6.666086501354883,
+   "fav_titolo": 0.6237623762376238,
+   "top4_su_4": 3.0297029702970297,
+   "p_alte_previste": 0.7630246789727126,
+   "p_alte_reali": 0.7640449438202247
+  },
+  {
+   "g": 15,
+   "n_stagioni": 101,
+   "sigma": 0.0,
+   "brier": 0.04863485888633214,
+   "brier_pro": 0.05183991906472685,
+   "mae_pts": 5.250782223618091,
+   "mae_pts_pro": 5.729931451383193,
+   "fav_titolo": 0.6237623762376238,
+   "top4_su_4": 3.227722772277228,
+   "p_alte_previste": 0.7896332582582581,
+   "p_alte_reali": 0.7882882882882883
+  },
+  {
+   "g": 25,
+   "n_stagioni": 101,
+   "sigma": 0.0,
+   "brier": 0.035390185761827,
+   "brier_pro": 0.037241038821258905,
+   "mae_pts": 3.754829459798995,
+   "mae_pts_pro": 3.9925315081157935,
+   "fav_titolo": 0.7722772277227723,
+   "top4_su_4": 3.504950495049505,
+   "p_alte_previste": 0.8417278610354224,
+   "p_alte_reali": 0.8542234332425068
+  }
+ ],
+ "note": "Backtest walk-forward 101 stagioni-campionato (leghe senza spareggi), giornata 9: errore medio sui punti finali 6.1 (regressione storica 6.7); la favorita del modello vince il titolo nel 62% dei casi, 3.0 squadre su 4 delle top4 predette finiscono davvero in top4; probabilità previste ≥50% si avverano nel 76% (previsto 76%).",
+ "league_skill": {
+  "D1": {
+   "title": 0.781,
+   "top4": 0.695,
+   "rel": 0.458
+  },
+  "D2": {
+   "title": 0.075,
+   "top4": 0.545,
+   "rel": 0.323
+  },
+  "E0": {
+   "title": 0.501,
+   "top4": 0.653,
+   "rel": 0.582
+  },
+  "E1": {
+   "title": 0.252,
+   "top4": 0.39,
+   "rel": 0.284
+  },
+  "F1": {
+   "title": 0.728,
+   "top4": 0.514,
+   "rel": 0.369
+  },
+  "F2": {
+   "title": 0.436,
+   "top4": 0.392,
+   "rel": 0.308
+  },
+  "I1": {
+   "title": 0.516,
+   "top4": 0.593,
+   "rel": 0.414
+  },
+  "I2": {
+   "title": 0.335,
+   "top4": 0.521,
+   "rel": 0.311
+  },
+  "N1": {
+   "title": 0.669,
+   "top4": 0.647,
+   "rel": 0.392
+  },
+  "P1": {
+   "title": 0.447,
+   "top4": 0.957,
+   "rel": 0.374
+  },
+  "SP1": {
+   "title": 0.411,
+   "top4": 0.81,
+   "rel": 0.539
+  },
+  "SP2": {
+   "title": 0.168,
+   "top4": 0.424,
+   "rel": 0.246
+  },
+  "T1": {
+   "title": 0.45,
+   "top4": 0.479,
+   "rel": 0.363
+  }
+ }
+}

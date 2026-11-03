@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+# DB compatto ricostruito a ogni run (non va su Git)
+model/core/
+# intermedi per-campionato
+model/data/match_preds_*.csv
+model/data/*.bak
+.env
+**/.env
